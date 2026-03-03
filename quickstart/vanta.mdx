@@ -1,0 +1,102 @@
+---
+title: Overview
+icon: 
+---
+# Welcome to Vanta's Developer Hub!
+
+Welcome to Vanta's Developer Hub, the official hub for all the resources you need to integrate and build with our public API. Our hub provides information about the Vanta API's capabilities, how to get started using the API, comprehensive endpoint documentation, and easy-to-follow guides to help you harness the full potential of our services. Whether you're just getting started or scaling up, our hub is designed to streamline your development process and enhance your applications.
+
+Start creating with Vanta today and unlock new possibilities for your projects!
+
+---
+
+# Vanta API Capabilities
+
+The Vanta API is RESTful and offers a versatile range of functions tailored to enhance the operational efficiency of your organization through automation and streamlined workflows.
+
+## Programmatically manage your Vanta account and automate workflows
+
+Automate processes or conduct actions in bulk, query data for reporting, and monitor resources and assets to improve your security and compliance posture while saving time.
+
+**Example use cases:**
+
+- User and security management: manage your personnel such as adjusting which group they belong to, <a href="https://developer.vanta.com/docs/offboard-people">offboarding people</a>, and <a href="https://developer.vanta.com/docs/mark-people-as-not-a-person">marking service accounts as "Not a person"</a>. Manage security-related user tasks, such as <a href="https://developer.vanta.com/docs/list-users-with-overdue-security-tasks">identifying users with overdue tasks</a>.
+- Security and compliance monitoring: query computers with failing security checks and [identify vulnerabilities with approaching service level agreements (SLAs)](https://developer.vanta.com/docs/guide-vulnerabilities-with-approaching-slas) to prioritize response actions.
+- Resource management: [scope resources at the integration level](https://developer.vanta.com/docs/scope-resources-at-the-integration-level) and manage attributes like [ownership and descriptions for resources, controls, documents, and tests](https://developer.vanta.com/docs/add-ownersdescriptions-to-resources).
+- Test and document management: [query and filter test results for failing resources](https://developer.vanta.com/docs/query-test-results-and-filter-for-failing-resources), deactivate monitoring for specific resources on tests, and create, delete, and [upload documents](https://developer.vanta.com/docs/upload-a-document) or file-based evidence.
+- Control and framework oversight: query information about your frameworks and controls, including the control language and their statuses.
+- Vendor management: query and manage your vendors and the information included in their security reviews.
+- njn
+- mkmk
+
+## Build integrations
+
+Create both [private and public integrations](https://developer.vanta.com/docs/build-integrations) enabling you to send data into Vanta from non-integrated environments. You can even leverage Vanta provided tests and/or [custom tests](https://help.vanta.com/hc/en-us/articles/28012720726036-Creating-Custom-Tests) against the resource data you send. (Refer to our [Plans and Pricing page](https://www.vanta.com/pricing) to determine if you have the Custom Tests feature). If you are interested in creating a public integration, please follow our [Partner Application Setup](https://developer.vanta.com/docs/partner-application-setup) guide to become an official Vanta partner!
+
+Vanta provides out of the box resource types for your team to leverage, as well as custom resources where you can define the entire schema! To understand what types of data you can send into Vanta, please reference this [guide](https://developer.vanta.com/docs/supported-resources#/) .
+
+**Example use cases:**
+
+- Push [user account data](https://developer.vanta.com/docs/user-accounts-resource) into our Access product feature. This will enable you to monitor account metadata (status, MFA, role, etc.), tie these accounts to your users for onboarding and off-boarding workflows, and even funnel this data into our Access Reviews feature!
+- Push vulnerability data into our Vulnerabilities product feature. Vanta can help monitor outstanding vulnerabilities and tie them to your SLAs to ensure your team is remediating them on time!
+- Push employee device data into our Computers product page. You can demonstrate employee device compliance (hard drive encryption, password manager & anti-virus, screen lock, & more!)
+
+## Streamline audits
+
+If you’re one of Vanta’s Audit Partners, use the Vanta API to query audit data and perform the audit in the preferred tool of your choice!
+
+---
+
+# Vanta API Details
+
+## API Structure
+
+Our API is a RESTful service that accepts JSON-formatted requests and returns JSON-formatted responses. The base URL for the API is `https://api.vanta.com`.
+
+The authentication endpoint is `https://api.vanta.com/oauth/token`.
+
+## API Authentication
+
+Vanta leverages OAuth API authentication to successfully perform requests. [Click here](https://developer.vanta.com/docs/api-access-setup) for our full walkthrough on how to authenticate to the Vanta API.
+
+## Rate Limiting
+
+The Vanta API has the following rate limits enforced:
+
+- OAuth Authentication endpoints: 5 requests per minute
+- Private and Public Integration endpoints: 20 requests per minute (includes endpoints in [this section](https://developer.vanta.com/reference/get-windowsusercomputer))
+- Management endpoints: 50 requests per minute (includes endpoints in [this section](https://developer.vanta.com/reference/getvulnerableasset))
+
+The Auditor API has a default rate limit of 250 requests per minute, with the following exceptions:
+
+- 10 requests per minute:
+  - Any POST or PATCH request on the Auditor API
+  - Audit sampling endpoints
+- 600 requests per minute:
+  - [List audit evidence URLs ](https://developer.vanta.com/reference/listauditevidenceurls#/) endpoint
+
+## API Versioning
+
+Over time, the Vanta API will continue to evolve and new versions will be released. More on how to receive these updates coming soon.
+
+## Making Requests
+
+You can interact with the API through standard HTTP methods:
+
+- GET to retrieve data
+- POST to create data
+- PATCH & PUT to update data
+- DELETE to remove data.
+
+## Response and Error Handling
+
+Successful responses will return a 200 OK status code along with the requested data in JSON format. In the case of errors, our API uses conventional HTTP response codes to indicate what went wrong:
+
+## Query Parameters
+
+Each endpoint will support various query parameters:
+
+1. Pagination: You can leverage the `pageSize` query parameter to adjust the number of results you want returned. To query additional pages, first check that `results.pageInfo.hasNextPage` is true, then you can fetch the next page by setting `pageCursor` to the value of `results.pageInfo.endCursor`.
+2. Filters: Various endpoints support a variety of filters to help you retrieve the data most important to your use case.
+
+> 📘 The API spec is hosted on the [API Reference](https://developer.vanta.com/reference/) page!
