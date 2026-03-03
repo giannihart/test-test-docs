@@ -1,0 +1,460 @@
+## Overview
+
+Devscribe Frontend is a modern Next.js web application that powers the Devscribe AI-native documentation platform. It enables teams to create, edit, and publish technical documentation with AI-assisted generation, rich text editing, and seamless GitHub integration.
+
+**Key capabilities:**
+
+- AI-powered documentation generation from code repositories
+- Rich text editor with MDX support
+- GitHub integration for repository sync and pull request tracking
+- Team collaboration with role-based access control
+- Custom domain hosting and theme customization
+- Real-time analytics and feedback tracking
+
+## Technology Stack
+
+The application is built with:
+
+- **Next.js 15.3.8** with App Router
+- **React 19** with TypeScript 5
+- **Tailwind CSS 4** for styling
+- **Supabase** for authentication and database
+- **Tiptap 3** for rich text editing
+- **Google Cloud Storage** for file storage
+- **CodeMirror 6** for code editing
+
+## Prerequisites
+
+Before starting, ensure you have:
+
+- **Node.js 24+** installed
+- **npm** package manager
+- Access to Supabase project credentials
+- Backend service running (Devscribe Backend)
+- Google Cloud Storage credentials (for file uploads)
+- GitHub OAuth app credentials (for repository integration)
+
+<Callout type="tip">
+The project uses Node.js 24 in the Docker container. Match this version locally for consistency.
+</Callout>
+
+## Installation
+
+<Steps>
+  <Step title="Clone the repository">
+Clone the repository to your local machine:
+
+<CodeSnippet language="bash">
+git clone https://github.com/devscribe-team/devscribe-frontend.git
+cd devscribe-frontend
+</CodeSnippet>
+  </Step>
+  <Step title="Install dependencies">
+Install all required packages:
+
+<CodeSnippet language="bash">
+npm ci
+</CodeSnippet>
+
+<Callout type="info">
+Use `npm ci` instead of `npm install` to ensure deterministic builds matching the lockfile.
+</Callout>
+  </Step>
+  <Step title="Configure environment variables">
+Create a `.env` file in the root directory with the following variables:
+
+<CodeSnippet language="bash" title=".env">
+{`# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# Backend Service
+NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://127.0.0.1:8000
+
+# Application URL
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Environment
+NEXT_PUBLIC_FRONTEND_ENVIRONMENT=local`}
+</CodeSnippet>
+
+<Callout type="warning">
+For OAuth to work correctly, use `http://127.0.0.1:8000` for the backend URL, not `localhost`. This is required due to cookie domain restrictions.
+</Callout>
+
+<Callout type="danger">
+Never commit `.env` files to version control. Keep all credentials secure and use environment-specific configurations.
+</Callout>
+  </Step>
+  <Step title="Start development server">
+Run the development server:
+
+<CodeSnippet language="bash">
+npm run dev
+</CodeSnippet>
+
+The application will be available at `http://localhost:3000`.
+
+<Callout type="success">
+Verify the server is running by navigating to the landing page at `http://localhost:3000`.
+</Callout>
+  </Step>
+</Steps>
+
+## Development Workflow
+
+### Available Scripts
+
+### Project Structure
+
+```text
+/src
+├── /app                       # Next.js App Router
+│   ├── /(auth)                # Authentication pages
+│   ├── /(dashboard)           # Protected dashboard routes
+│   │   ├── /dashboard         # Main dashboard
+│   │   ├── /editor            # Document editor
+│   │   ├── /generate-docs     # AI doc generation
+│   │   ├── /settings          # Settings & configuration
+│   │   ├── /updates           # Documentation updates
+│   │   └── /analytics         # Usage analytics
+│   ├── /(landing)             # Public landing pages
+│   └── /api                   # API routes
+├── /components                # Reusable components
+│   ├── /ui# Base UI components
+│   ├── /block-editor          # Editor components
+│   └── /mdx                   # MDX rendering
+├── /features                  # Feature-specific modules
+│   ├── /auth                  # Authentication logic
+│   ├── /database              # Supabase queries
+│   ├── /editing               # File editing
+│   ├── /generation            # Doc generation
+│   └── /landing               # Landing page content
+├── /hooks                     # Custom React hooks
+├── /lib                       # Utility functions
+└── /styles                    # Global styles
+```
+
+## Key Features
+
+### Authentication
+
+The application uses Supabase for authentication with JWT session cookies. Protected routes are guarded by middleware at `src/middleware.ts:1`.
+
+**Protected routes:**
+
+- `/dashboard` - Main dashboard
+- `/editor` - Documentation editor
+- `/generate-docs` - AI generation interface
+- `/settings` - Application settings
+- `/analytics` - Usage analytics
+- `/updates` - Documentation synchronization
+
+**Authentication methods:**
+
+- Email/password login
+- Google OAuth
+- GitHub OAuth
+- Team invitations
+
+<Callout type="info">
+Session validation is performed via JWT token expiry checks in middleware. Expired sessions redirect to `/login`.
+</Callout>
+
+### Documentation Editor
+
+The editor is built on Tiptap 3, providing rich text editing capabilities with support for:
+
+- Text formatting (bold, italic, underline)
+- Code blocks with syntax highlighting
+- Lists (ordered and unordered)
+- Images and media
+- Custom MDX components
+- Markdown shortcuts
+
+**Editor locations:**
+
+- New editor: `/editor`
+- Legacy editor: `/editor-old`
+
+### AI Documentation Generation
+
+Generate documentation from code repositories using AI agents:
+
+<Steps>
+  <Step title="Connect GitHub repository">
+Navigate to `/generate-docs` and authenticate with GitHub to select a repository.
+  </Step>
+  <Step title="Select documentation type">
+Choose from API documentation, user guides, or custom documentation types.
+  </Step>
+  <Step title="Configure context">
+Select specific files or directories to include as context for AI generation.
+  </Step>
+  <Step title="Generate documentation">
+The AI agent processes your code and generates structured documentation with proper formatting.
+  </Step>
+</Steps>
+
+<Callout type="tip">
+Use the context file selector to narrow down which parts of your codebase the AI should analyze. This improves generation speed and relevance.
+</Callout>
+
+### Documentation Updates
+
+Track changes in your source repository and sync documentation automatically:
+
+1. **Pull Request Detection** - Monitors configured repositories for new PRs
+2. **Change Analysis** - AI agents analyze code changes
+3. **Documentation Sync** - Suggests updates to relevant documentation pages
+4. **Review & Merge** - Review AI-suggested changes before committing
+
+Access this feature at `/updates` after connecting a GitHub repository.
+
+### Settings & Configuration
+
+<AccordionGroup>
+  <Accordion title="Personal Settings">
+  Configure your user profile, notification preferences, and API keys.
+  </Accordion>
+  <Accordion title="Organization Settings">
+  Manage organization details, team members, and billing information.
+  </Accordion>
+  <Accordion title="GitHub Integration">
+  Connect GitHub repositories, configure webhooks, and manage repository access.
+
+  <CodeSnippet language="typescript">
+  {`// GitHub token is stored securely in Supabase
+  // Access via features/editing/utils/github-token.ts`}
+  </CodeSnippet>
+  </Accordion>
+  <Accordion title="Custom Domain">
+  Configure custom domains for your documentation site with SSL support.
+  </Accordion>
+  <Accordion title="Theme Customization">
+  Customize colors, fonts, logos, and favicon for your documentation site.
+  </Accordion>
+  <Accordion title="Billing">
+  Manage subscription plans, usage limits, and payment methods.
+  </Accordion>
+  <Accordion title="MCP Server Configuration">
+  Configure Model Context Protocol (MCP) server integration for advanced AI capabilities.
+  </Accordion>
+</AccordionGroup>
+
+### Analytics
+
+Track documentation engagement at `/analytics`:
+
+- **Page views** - Monitor which documentation pages are most visited
+- **User feedback** - Track helpful/unhelpful ratings
+- **Daily metrics** - View usage trends over time
+- **Per-page analytics** - Analyze individual page performance
+
+## API Integration
+
+The frontend communicates with the Devscribe Backend service for:
+
+### Core Endpoints
+
+<ParameterField name="NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL" type="string">
+Backend service base URL. Use `http://127.0.0.1:8000` for local development.
+</ParameterField>
+
+**Key endpoints:**
+
+- `/auth/*` - Authentication and user management
+- `/github/*` - GitHub integration (repos, branches, PRs)
+- `/generate-docs` - Documentation generation
+- `/agent/*` - AI agent operations
+- `/updates-changes` - Documentation update tracking
+
+<Callout type="info">
+All API requests include JWT session cookies for authentication. The backend validates these tokens before processing requests.
+</Callout>
+
+## Docker Deployment
+
+<Steps>
+  <Step title="Build Docker image">
+<CodeSnippet language="bash">
+docker build -t devscribe-frontend .
+</CodeSnippet>
+
+The Dockerfile uses Node.js 24 Bookworm Slim for a lightweight production image.
+  </Step>
+  <Step title="Run container">
+<CodeSnippet language="bash">
+{`docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_SUPABASE_URL=your_url \
+  -e NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key \
+  -e SUPABASE_SERVICE_ROLE_KEY=your_service_key \
+  -e NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://backend:8000 \
+  devscribe-frontend`}
+</CodeSnippet>
+  </Step>
+  <Step title="Use Docker Compose (optional)">
+For local development with orchestration:
+
+<CodeSnippet language="bash">
+docker-compose up
+</CodeSnippet>
+
+This starts both frontend and backend services together.
+  </Step>
+</Steps>
+
+<Callout type="warning">
+Ensure all environment variables are properly set when running in Docker. Missing variables will cause the application to fail at startup per `src/lib/supabase.ts:8`.
+</Callout>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Google/GitHub OAuth doesn't work">
+  **Solution:** Ensure `NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://127.0.0.1:8000` in your `.env` file. Do not use `localhost` - use exactly `127.0.0.1` due to cookie domain restrictions.
+
+  <CodeSnippet language="bash">
+  {`# Correct
+  NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://127.0.0.1:8000
+
+  # Incorrect
+  NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://localhost:8000`}
+  </CodeSnippet>
+  </Accordion>
+  <Accordion title="Missing environment variables error">
+  If you see errors about missing Supabase variables at startup, verify all required environment variables are set:
+
+  <CodeSnippet language="bash">
+  {`# Required variables
+  NEXT_PUBLIC_SUPABASE_URL
+  NEXT_PUBLIC_SUPABASE_ANON_KEY
+  SUPABASE_SERVICE_ROLE_KEY`}
+  </CodeSnippet>
+
+  The application validates these at `src/lib/supabase.ts:8` and will throw an error if any are missing.
+  </Accordion>
+  <Accordion title="Session expired / redirect loops">
+  **Possible causes:**
+  - JWT token expired (tokens expire after a set duration)
+  - Cookie domain mismatch
+  - Backend service not running
+
+  **Solutions:**
+  - Clear browser cookies and log in again
+  - Verify backend service is accessible
+  - Check middleware configuration at `src/middleware.ts:18`
+  </Accordion>
+  <Accordion title="Build errors with TypeScript">
+  Run type checking to identify issues:
+
+  <CodeSnippet language="bash">
+  npm run typecheck
+  </CodeSnippet>
+
+  Common issues:
+  - Missing type definitions for dependencies
+  - Incorrect import paths
+  - Type mismatches in component props
+  </Accordion>
+  <Accordion title="Port already in use">
+  If port 3000 is already in use:
+
+  <CodeSnippet language="bash">
+  {`# Kill process on port 3000
+  lsof -ti:3000 | xargs kill -9
+
+  # Or use a different port
+  PORT=3001 npm run dev`}
+  </CodeSnippet>
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+### Code Quality
+
+<Card title="Type Safety" icon="shield">
+Always use TypeScript and avoid `any` types. Run `npm run typecheck` before committing.
+</Card>
+
+<Card title="Code Formatting" icon="wand">
+Use Biome for formatting: `npm run format`. This ensures consistent code style across the team.
+</Card>
+
+<Card title="Linting" icon="check">
+Fix linting issues before pushing: `npm run lint:fix`.
+</Card>
+
+### Development
+
+<Callout type="tip">
+Use Turbopack for faster development rebuilds: `npm run dev:turbo`. This significantly improves hot reload performance.
+</Callout>
+
+<Callout type="info">
+When debugging, use Next.js Server Actions carefully. They're enabled for localhost and 127.0.0.1 only per `next.config.ts:24`.
+</Callout>
+
+### Security
+
+- Never commit `.env` files or credentials
+- Use environment variables for all secrets
+- Validate user input on both client and server
+- Keep dependencies updated regularly
+
+<Callout type="danger">
+The `SUPABASE_SERVICE_ROLE_KEY` bypasses Row Level Security. Only use it in server-side code, never expose it to the client.
+</Callout>
+
+## Git Workflow
+
+**Main branch:** `staging`
+
+**Current branch:** `mcp-prototyping`
+
+Recent development focuses on:
+
+- MCP (Model Context Protocol) server integration
+- Generation flow improvements
+- OAuth timeout handling
+- Python compatibility fixes
+
+<Callout type="info">
+When creating pull requests, target the `staging` branch unless working on a specific feature branch.
+</Callout>
+
+## Additional Resources
+
+<Card title="Card Title">
+<Card title="Next.js Documentation" icon="book" href="https://nextjs.org/docs">
+Learn about Next.js features and API.
+</Card>
+
+<Card title="Supabase Docs" icon="database" href="https://supabase.com/docs">
+Explore Supabase authentication and database features.
+</Card>
+
+<Card title="Tiptap Editor" icon="pen" href="https://tiptap.dev/docs">
+Customize and extend the rich text editor.
+</Card>
+
+<Card title="Tailwind CSS" icon="paintbrush" href="https://tailwindcss.com/docs">
+Reference for utility classes and customization.
+</Card>
+
+</CardGroup>
+
+## Support
+
+For issues or questions:
+
+1. Check the troubleshooting section above
+2. Review closed issues in the repository
+3. Contact the development team
+4. Submit a bug report with reproduction steps
+
+<Callout type="success">
+You're now ready to develop with Devscribe Frontend. Start by running `npm run dev` and navigating to `http://localhost:3000`.
+</Callout>
