@@ -10,11 +10,11 @@ Start creating with Vanta today and unlock new possibilities for your projects!
 
 ---
 
-# Vanta API Capabilities
+## Vanta API Capabilities
 
 The Vanta API is RESTful and offers a versatile range of functions tailored to enhance the operational efficiency of your organization through automation and streamlined workflows.
 
-## Programmatically manage your Vanta account and automate workflows
+### Programmatically manage your Vanta account and automate workflows
 
 Automate processes or conduct actions in bulk, query data for reporting, and monitor resources and assets to improve your security and compliance posture while saving time.
 
@@ -29,7 +29,7 @@ Automate processes or conduct actions in bulk, query data for reporting, and mon
 - njn
 - mkmk
 
-## Build integrations
+### Build integrations
 
 Create both [private and public integrations](https://developer.vanta.com/docs/build-integrations) enabling you to send data into Vanta from non-integrated environments. You can even leverage Vanta provided tests and/or [custom tests](https://help.vanta.com/hc/en-us/articles/28012720726036-Creating-Custom-Tests) against the resource data you send. (Refer to our [Plans and Pricing page](https://www.vanta.com/pricing) to determine if you have the Custom Tests feature). If you are interested in creating a public integration, please follow our [Partner Application Setup](https://developer.vanta.com/docs/partner-application-setup) guide to become an official Vanta partner!
 
@@ -41,25 +41,25 @@ Vanta provides out of the box resource types for your team to leverage, as well 
 - Push vulnerability data into our Vulnerabilities product feature. Vanta can help monitor outstanding vulnerabilities and tie them to your SLAs to ensure your team is remediating them on time!
 - Push employee device data into our Computers product page. You can demonstrate employee device compliance (hard drive encryption, password manager & anti-virus, screen lock, & more!)
 
-## Streamline audits
+### Streamline audits
 
 If you’re one of Vanta’s Audit Partners, use the Vanta API to query audit data and perform the audit in the preferred tool of your choice!
 
 ---
 
-# Vanta API Details
+## Vanta API Details
 
-## API Structure
+### API Structure
 
 Our API is a RESTful service that accepts JSON-formatted requests and returns JSON-formatted responses. The base URL for the API is `https://api.vanta.com`.
 
 The authentication endpoint is `https://api.vanta.com/oauth/token`.
 
-## API Authentication
+### API Authentication
 
 Vanta leverages OAuth API authentication to successfully perform requests. [Click here](https://developer.vanta.com/docs/api-access-setup) for our full walkthrough on how to authenticate to the Vanta API.
 
-## Rate Limiting
+### Rate Limiting
 
 The Vanta API has the following rate limits enforced:
 
@@ -75,11 +75,11 @@ The Auditor API has a default rate limit of 250 requests per minute, with the fo
 - 600 requests per minute:
   - [List audit evidence URLs ](https://developer.vanta.com/reference/listauditevidenceurls#/) endpoint
 
-## API Versioning
+### API Versioning
 
 Over time, the Vanta API will continue to evolve and new versions will be released. More on how to receive these updates coming soon.
 
-## Making Requests
+### Making Requests
 
 You can interact with the API through standard HTTP methods:
 
@@ -88,11 +88,11 @@ You can interact with the API through standard HTTP methods:
 - PATCH & PUT to update data
 - DELETE to remove data.
 
-## Response and Error Handling
+### Response and Error Handling
 
 Successful responses will return a 200 OK status code along with the requested data in JSON format. In the case of errors, our API uses conventional HTTP response codes to indicate what went wrong:
 
-## Query Parameters
+### Query Parameters
 
 Each endpoint will support various query parameters:
 
