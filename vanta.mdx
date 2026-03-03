@@ -1,0 +1,48 @@
+---
+title: "Getting Started"
+description: "Quick start guide for the Devscribe frontend application"
+---
+
+## Overview
+
+Devscribe frontend is the web interface for the Devscribe documentation platform, built with Next.js.
+
+## Prerequisites
+
+Before running the application, ensure you have:
+
+- Node.js and npm installed
+- Access to the Devscribe backend API
+- OAuth credentials configured for Google and GitHub authentication
+
+## Configuration
+
+Create a `.env` file in your project root with the following environment variables:
+
+<CodeSnippet language="bash" title=".env">
+NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://127.0.0.1:8000
+</CodeSnippet>
+
+<Callout type="warning">
+The backend URL must be exactly `http://127.0.0.1:8000` (not `localhost`). OAuth providers are strict about the redirect URI format.
+</Callout>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Google / GitHub OAuth doesn't work">
+This is typically caused by an incorrect backend URL configuration.
+
+**Solution:**
+
+Verify your `.env` file contains:
+
+<CodeSnippet language="bash">
+NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://127.0.0.1:8000
+</CodeSnippet>
+
+<Callout type="tip">
+Use `127.0.0.1` instead of `localhost`. OAuth providers require exact URL matching, and the IP address format ensures consistency across different environments.
+</Callout>
+</Accordion>
+</AccordionGroup>
