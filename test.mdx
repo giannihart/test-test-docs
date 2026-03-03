@@ -2,8 +2,7 @@
 title: Updates Page Workflow
 icon: book
 ---
-
-## Overview
+## Overview test
 
 The Updates page automatically detects changes in your codebase and helps you keep documentation synchronized with code changes. The page displays a list of affected documentation sections and provides tools to review and regenerate content.
 
@@ -11,8 +10,8 @@ The Updates page automatically detects changes in your codebase and helps you ke
 
 You can access the Updates page in two ways:
 
-- **Dashboard sidebar**: Navigate directly from the sidebar menu  
-- **Updates counter button**: Click the updates counter button on the dashboard, which displays the number of pending updates and provides quick access to the Updates page  
+- **Dashboard sidebar**: Navigate directly from the sidebar menu
+- **Updates counter button**: Click the updates counter button on the dashboard, which displays the number of pending updates and provides quick access to the Updates page
 
 The page loads automatically and fetches all detected changes from your connected repository.
 
@@ -20,16 +19,16 @@ The page loads automatically and fetches all detected changes from your connecte
 
 The Updates page uses a split-pane interface:
 
-- **Left pane**: Scrollable list of all detected updates  
-- **Right pane**: Detailed view of the selected update with diff visualization  
+- **Left pane**: Scrollable list of all detected updates
+- **Right pane**: Detailed view of the selected update with diff visualization
 
 ## Understanding Update Types
 
 Each update is tagged with one of three status badges:
 
-- **Updated**: Existing documentation affected by code changes  
-- **New**: New code additions that require documentation  
-- **Deleted**: Code removed from the codebase  
+- **Updated**: Existing documentation affected by code changes
+- **New**: New code additions that require documentation
+- **Deleted**: Code removed from the codebase
 
 <Callout type="info">
 The status badge appears in the top-right corner of each update card with color-coded styling (yellow for updated, green for new, red for deleted).
@@ -45,18 +44,18 @@ Use the search bar at the top of the left pane to filter updates by title or cat
 
 Navigate between updates using:
 
-- **Previous/Next buttons**: Located in the header and footer of the right pane  
-- **Card selection**: Click any card in the left sidebar  
-- **Counter display**: Shows current position (e.g., "3 of 12")  
+- **Previous/Next buttons**: Located in the header and footer of the right pane
+- **Card selection**: Click any card in the left sidebar
+- **Counter display**: Shows current position (e.g., "3 of 12")
 
 ### Viewing Update Details
 
 Each update card displays:
 
-- **Title**: Function or section name extracted from frontmatter  
-- **Category**: Derived from the title (text before the first dot)  
-- **Last Updated**: Timestamp of when the change was detected  
-- **Status Badge**: Visual indicator of change type  
+- **Title**: Function or section name extracted from frontmatter
+- **Category**: Derived from the title (text before the first dot)
+- **Last Updated**: Timestamp of when the change was detected
+- **Status Badge**: Visual indicator of change type
 
 ## Taking Action on Updates
 
@@ -64,16 +63,16 @@ Each update card displays:
 
 For **updated** or **deleted** items:
 
-1. Click the "Regenerate" button on any update card  
-2. The system calls the `/updates-regenerate` endpoint with the old documentation, old code, and new code  
-3. A diff view appears showing line-by-line changes between the original and regenerated documentation  
+1. Click the "Regenerate" button on any update card
+2. The system calls the `/updates-regenerate` endpoint with the old documentation, old code, and new code
+3. A diff view appears showing line-by-line changes between the original and regenerated documentation
 
 <Callout type="tip">
 Changes are color-coded:
 
 - **Green lines** (with `+` icon): New additions  
 - **Red lines** (with `-` icon): Removed content  
-- **Gray lines**: Unchanged content  
+- **Gray lines**: Unchanged content
 </Callout>
 
 <Callout type="info">
@@ -85,31 +84,27 @@ If regeneration produces no changes, a toast notification appears:
 
 For **new** items:
 
-1. Click the "Generate" button on the update card  
-2. The system calls the `/generate-docs` endpoint with the unique identifier (UID) of the new code  
-3. A diff view shows the newly generated documentation compared to an empty baseline  
+1. Click the "Generate" button on the update card
+2. The system calls the `/generate-docs` endpoint with the unique identifier (UID) of the new code
+3. A diff view shows the newly generated documentation compared to an empty baseline
 
 ## Workflow Example
 
 <Steps>
   <Step title="Load Updates">
-    Open the Updates page. The system automatically fetches changes detected since your last documentation sync.
+Open the Updates page. The system automatically fetches changes detected since your last documentation sync.
   </Step>
-
   <Step title="Review Changes">
-    Browse the list of updates in the left pane. Each card shows what changed and when.
+Browse the list of updates in the left pane. Each card shows what changed and when.
   </Step>
-
   <Step title="Regenerate Documentation">
-    Select an update and click "Regenerate" or "Generate" to produce updated documentation based on the code changes.
+Select an update and click "Regenerate" or "Generate" to produce updated documentation based on the code changes.
   </Step>
-
   <Step title="Inspect Diff">
-    Review the line-by-line diff showing exactly what changed in the documentation.
+Review the line-by-line diff showing exactly what changed in the documentation.
   </Step>
-
   <Step title="Save Changes">
-    Click the "Save current page" button in the header to persist the regenerated documentation changes to the system.
+Click the "Save current page" button in the header to persist the regenerated documentation changes to the system.
   </Step>
 </Steps>
 
@@ -117,9 +112,9 @@ For **new** items:
 
 The page handles three states:
 
-- **Loading**: Displays a spinner with "Loading updates..." message  
-- **Empty**: Shows "No codebase changes detected" when no updates exist  
-- **Error**: Displays an error message if the backend request fails  
+- **Loading**: Displays a spinner with "Loading updates..." message
+- **Empty**: Shows "No codebase changes detected" when no updates exist
+- **Error**: Displays an error message if the backend request fails
 
 ## Technical Details
 
@@ -127,9 +122,9 @@ The page handles three states:
 
 The page integrates with three backend endpoints:
 
-- `POST /updates-changes`: Fetches all detected changes (called on page load at `src/app/(dashboard)/updates/page.tsx:196`)  
-- `POST /updates-regenerate`: Regenerates documentation for updated/deleted items (`src/app/(dashboard)/updates/page.tsx:263`)  
-- `POST /generate-docs`: Generates documentation for new code additions (`src/app/(dashboard)/updates/page.tsx:255`)  
+- `POST /updates-changes`: Fetches all detected changes (called on page load at `src/app/(dashboard)/updates/page.tsx:196`)
+- `POST /updates-regenerate`: Regenerates documentation for updated/deleted items (`src/app/(dashboard)/updates/page.tsx:263`)
+- `POST /generate-docs`: Generates documentation for new code additions (`src/app/(dashboard)/updates/page.tsx:255`)
 
 ### Data Structure
 
@@ -137,8 +132,8 @@ The page integrates with three backend endpoints:
 Updates are stored with the following properties:
 </Callout>
 
-<CodeSnippet language="typescript">
-{`interface UpdateCard {
+```typescript
+interface UpdateCard {
   id: string              // Unique identifier
   title: string           // Extracted from frontmatter or fully_qualified_name
   category: string        // Derived from title
@@ -148,8 +143,8 @@ Updates are stored with the following properties:
   filename: string        // Source file path
   oldCode: string         // Previous code version
   newCode: string         // Updated code version
-}`}
-</CodeSnippet>
+}
+```
 
 ### Diff Algorithm
 
