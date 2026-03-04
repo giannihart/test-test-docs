@@ -1,0 +1,247 @@
+Based on the repository structure, I can see this is a Next.js frontend application for Devscribe. Let me create a comprehensive basic user guide for the README:
+
+---
+title: "Devscribe Frontend - User Guide"
+description: "Getting started with the Devscribe documentation platform frontend"
+---
+
+## Overview
+
+Devscribe is a documentation platform that helps teams create, manage, and publish technical documentation. This frontend application is built with Next.js 15 and provides an intuitive interface for writing and organizing documentation.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** - Version 18.0 or higher
+- **npm** or **yarn** - Package manager for dependencies
+- **Git** - Version control system
+
+## Installation
+
+<Steps>
+<Step title="Clone the repository">
+Clone the project to your local machine:
+
+<CodeSnippet language="bash">
+git clone [repository-url]
+cd devscribe-frontend
+</CodeSnippet>
+</Step>
+
+<Step title="Install dependencies">
+Install all required packages:
+
+<CodeSnippet language="bash">
+npm install
+</CodeSnippet>
+
+<Callout type="info">
+Installation may take a few minutes as the project includes rich text editing, code highlighting, and documentation rendering libraries.
+</Callout>
+</Step>
+
+<Step title="Configure environment variables">
+Create a `.env` file in the root directory with the required configuration:
+
+<CodeSnippet language="bash">
+{`NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://127.0.0.1:8000`}
+</CodeSnippet>
+
+<Callout type="warning">
+For OAuth authentication (Google/GitHub) to work properly, you must use `http://127.0.0.1:8000` exactly as shown - not `localhost`. The OAuth providers are strict about the redirect URL format.
+</Callout>
+</Step>
+</Steps>
+
+## Running the Application
+
+### Development Mode
+
+Start the development server:
+
+<Tabs>
+<Tab title="Standard Mode">
+<CodeSnippet language="bash">
+npm run dev
+</CodeSnippet>
+
+Access the application at `http://localhost:3000`
+</Tab>
+
+<Tab title="Turbopack Mode">
+<CodeSnippet language="bash">
+npm run dev:turbo
+</CodeSnippet>
+
+Uses Next.js 15's Turbopack for faster builds and hot module replacement.
+</Tab>
+
+<Tab title="Clean Start">
+<CodeSnippet language="bash">
+npm run dev:clean
+</CodeSnippet>
+
+Removes the `.next` build cache before starting. Use this if you encounter caching issues.
+</Tab>
+</Tabs>
+
+### Production Build
+
+Build and run the production version:
+
+<CodeSnippet language="bash">
+npm run build
+npm start
+</CodeSnippet>
+
+## Available Scripts
+
+<AccordionGroup>
+<Accordion title="Development Commands">
+- `npm run dev` - Start development server
+- `npm run dev:turbo` - Start development server with Turbopack
+- `npm run dev:clean` - Clean build cache and start development server
+</Accordion>
+
+<Accordion title="Build Commands">
+- `npm run build` - Create production build
+- `npm start` - Run production server
+- `npm run analyze` - Analyze bundle size with webpack analyzer
+</Accordion>
+
+<Accordion title="Code Quality Commands">
+- `npm run lint` - Run ESLint checks
+- `npm run lint:fix` - Fix ESLint issues automatically
+- `npm run type` - Run TypeScript type checking
+- `npm run format` - Format code with Biome
+- `npm run format:fix` - Format code with Prettier
+</Accordion>
+
+<Accordion title="Utility Commands">
+- `npm run clean` - Remove all generated files and dependencies
+- `npm run ci:check` - Run all checks (build, type, lint) for CI/CD
+</Accordion>
+</AccordionGroup>
+
+## Key Features
+
+<CardGroup cols={2}>
+<Card title="Rich Text Editor" icon="pen">
+Built-in TipTap editor with MDX support for creating structured technical documentation.
+</Card>
+
+<Card title="Code Highlighting" icon="code">
+Syntax highlighting powered byShiki with support for multiple programming languages.
+</Card>
+
+<Card title="Component Library" icon="puzzle">
+Pre-built documentation components including callouts, tabs, code groups, and accordions.
+</Card>
+
+<Card title="Live Preview" icon="eye">
+Real-time preview of your documentation as you write.
+</Card>
+</CardGroup>
+
+## Project Structure
+
+<CodeSnippet language="text">
+{`devscribe-frontend/
+├── src/
+│   ├── app/              # Next.js app router pages
+│   ├── components/       # Reusable UI components
+│   ├── features/         # Feature-specific modules
+│   │   ├── mdx/         # MDX rendering components
+│   │   ├── editing/     # Editor functionality
+│   │   └── database/    # Database utilities
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Utility functions
+│   └── styles/          # Global styles and variables
+├── public/              # Static assets
+└── package.json         # Project dependencies`}
+</CodeSnippet>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="OAuth Authentication Issues">
+**Problem**: Google or GitHub OAuth doesn't work
+
+**Solution**: Verify your `.env` file contains:
+<CodeSnippet language="bash">
+{`NEXT_PUBLIC_DEVSCRIBE_BACKEND_URL=http://127.0.0.1:8000`}
+</CodeSnippet>
+
+The URL must use `127.0.0.1` instead of `localhost` for OAuth redirects to function properly.
+</Accordion>
+
+<Accordion title="Build Errors After Pulling Changes">
+**Problem**: Application fails to start after pulling new changes
+
+**Solution**: Clean the build cache and reinstall dependencies:
+<CodeSnippet language="bash">
+npm run clean
+npm install
+npm run dev:clean
+</CodeSnippet>
+</Accordion>
+
+<Accordion title="TypeScript Errors">
+**Problem**: Type checking failures
+
+**Solution**: Run type checking to identify issues:
+<CodeSnippet language="bash">
+npm run typecheck
+</CodeSnippet>
+
+Address any reported type errors before building for production.
+</Accordion>
+
+<Accordion title="Port Already in Use">
+**Problem**: Port 3000 is already in use
+
+**Solution**: Either stop the process using port 3000 or specify a different port:
+<CodeSnippet language="bash">
+PORT=3001 npm run dev
+</CodeSnippet>
+</Accordion>
+</AccordionGroup>
+
+## Technology Stack
+
+The application is built with modern web technologies:
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **UI Components**: Radix UI primitives
+- **Editor**: TipTap with ProseMirror
+- **Code Highlighting**: Shiki
+- **Documentation**: MDX with custom components
+- **State Management**: React hooks and context
+- **Authentication**: Supabase SSR
+
+## Next Steps
+
+<Steps>
+<Step title="Explore the editor">
+Navigate to the editor page to start creating documentation with the rich text interface.
+</Step>
+
+<Step title="Review components">
+Check out the available MDX components in `src/features/mdx/devscribe-components` to enhance your documentation.
+</Step>
+
+<Step title="Configure authentication">
+Set up your OAuth providers in the backend to enable user authentication.
+</Step>
+
+<Step title="Customize styling">
+Modify the theme in `src/styles/_variables.scss` to match your brand identity.
+</Step>
+</Steps>
+
+<Callout type="success">
+You're all set! Start building beautiful documentation with Devscribe.
+</Callout>
